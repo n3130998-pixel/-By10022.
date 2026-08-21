@@ -1,0 +1,60 @@
+-- โค้ดสำหรับรันใน LocalScript ภายใต้ StarterGui
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- สร้างหน้าจอหลัก
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "PrankGui"
+screenGui.Parent = playerGui
+
+-- ปุ่มกด (Button)
+local prankBtn = Instance.new("TextButton")
+prankBtn.Size = UDim2.new(0, 200, 0, 50)
+prankBtn.Position = UDim2.new(0.5, -100, 0.5, -25)
+prankBtn.Text = "กดเพื่อรับของฟรี! 🎁"
+prankBtn.TextSize = 18
+prankBtn.BackgroundColor3 = Color3.fromRGB(255, 71, 87)
+prankBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+prankBtn.Parent = screenGui
+
+-- ฟังก์ชันสร้างหน้าต่างแกล้ง
+local function showPrankPopup()
+    local overlay = Instance.new("Frame")
+    overlay.Size = UDim2.new(1, 0, 1, 0)
+    overlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    overlay.BackgroundTransparency = 0.5
+    overlay.Parent = screenGui
+
+    local modalBox = Instance.new("Frame")
+    modalBox.Size = UDim2.new(0, 300, 0, 200)
+    modalBox.Position = UDim2.new(0.5, -150, 0.5, -100)
+    modalBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    modalBox.Parent = overlay
+
+    local textLabel = Instance.new("TextLabel")
+    textLabel.Size = UDim2.new(1, -20, 0, 70)
+    textLabel.Position = UDim2.new(0, 10, 0, 20)
+    textLabel.Text = "ของฟรีที่ว่า กดปิดดูสิ" -- ปรับข้อความตามสั่ง
+    textLabel.TextScaled = true
+    textLabel.Font = Enum.Font.GothamBold
+    textLabel.TextColor3 = Color3.fromRGB(255, 71, 87)
+    textLabel.BackgroundTransparency = 1
+    textLabel.Parent = modalBox
+
+    local closeBtn = Instance.new("TextButton")
+    closeBtn.Size = UDim2.new(0, 100, 0, 40)
+    closeBtn.Position = UDim2.new(0.5, -50, 0, 130)
+    closeBtn.Text = "ปิด"
+    closeBtn.BackgroundColor3 = Color3.fromRGB(46, 213, 115)
+    closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    closeBtn.Parent = modalBox
+
+    -- กลไก: กดปุ่มปิดแล้วเตะออกจากเกมทันที
+    closeBtn.MouseButton1Click:Connect(function()
+        player:Kick("มึงหิวของเหรออีโง่? โดนเตะออกไปซะ!") 
+    end)
+end
+
+prankBtn.MouseButton1Click:Connect(function()
+    showPrankPopup()
+end)
